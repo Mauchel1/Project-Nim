@@ -8,8 +8,9 @@ using UnityEngine;
 public static class MeshGenerator
 {
 
-    public static MeshData GenerateTerrainMesh(float[,] heighMap, float heightMultiplyer, AnimationCurve heigthCurve, int levelOfDetail)
+    public static MeshData GenerateTerrainMesh(float[,] heighMap, float heightMultiplyer, AnimationCurve _heigthCurve, int levelOfDetail)
     {
+        AnimationCurve heigthCurve = new AnimationCurve(_heigthCurve.keys);
         int width = heighMap.GetLength(0);
         int heigth = heighMap.GetLength(1);
         float topLeftX = (width - 1) / -2f;
