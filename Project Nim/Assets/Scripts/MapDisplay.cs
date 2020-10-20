@@ -10,12 +10,12 @@ public class MapDisplay : MonoBehaviour
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
 
-    public void DrawMesh(MeshData meshData, Texture2D texture)
+    public void DrawMesh(MeshData meshData)
     {
         meshFilter.sharedMesh = meshData.CreateMesh();
-        meshRenderer.sharedMaterial.mainTexture = texture;
+        meshFilter.transform.localScale = Vector3.one * FindObjectOfType<MapGeneration>().terrainData.uniformScale;
     }
-    
+
     public void DrawTexture(Texture2D texture)
     {
 

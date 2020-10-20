@@ -8,7 +8,7 @@ using UnityEngine;
 public static class MeshGenerator
 {
 
-    public static MeshData GenerateTerrainMesh(float[,] heighMap, float heightMultiplyer, AnimationCurve _heigthCurve, int levelOfDetail)
+    public static MeshData GenerateTerrainMesh(float[,] heighMap, float heightMultiplyer, AnimationCurve _heigthCurve, int levelOfDetail, bool useFlatshading)
     {
         AnimationCurve heigthCurve = new AnimationCurve(_heigthCurve.keys);
 
@@ -23,7 +23,7 @@ public static class MeshGenerator
 
         int verticesPerLine = (meshSize - 1) / meshSimpilificationIncrement + 1;
 
-        MeshData meshData = new MeshData(borderedSize-1);
+        MeshData meshData = new MeshData(borderedSize-1, useFlatshading);
 
         int[,] vertexIndicesMap = new int[borderedSize, borderedSize];
         int meshVertexIndex = 0;
@@ -73,7 +73,7 @@ public static class MeshGenerator
                 
         }
 
-        meshData.BakeNormals();
+        meshData.Finalise();
         return meshData;
     }
 }
@@ -93,8 +93,11 @@ public class MeshData
     int triangleIndex;
     int borderTriangleIndex;
 
-    public MeshData(int verticesPerLine)
+    bool useFlatshading;
+
+    public MeshData(int verticesPerLine, bool useFlatshading)
     {
+        this.useFlatshading = useFlatshading;
         vertices = new Vector3[(verticesPerLine + 1) * (verticesPerLine + 1)];
         uvs = new Vector2[(verticesPerLine + 1) * (verticesPerLine + 1)];
         triangles = new int[verticesPerLine * verticesPerLine * 6];
@@ -195,9 +198,36 @@ public class MeshData
         return Vector3.Cross (sideAB, sideAC).normalized;
     }
 
-    public void BakeNormals()
+    public void Finalise()
+    {
+        if (useFlatshading)
+        {
+            FlatShading();
+        } else
+        {
+            BakeNormals();
+        }
+    }
+
+    void BakeNormals()
     {
         bakedNormals = CalculateNormals();
+    }
+
+    void FlatShading()
+    {
+        Vector3[] flatShadedVertices = new Vector3[triangles.Length];
+        Vector2[] flatShadedUvs = new Vector2[triangles.Length];
+
+        for (int i = 0; i < triangles.Length; i++)
+        {
+            flatShadedVertices[i] = vertices[triangles[i]];
+            flatShadedUvs[i] = uvs[triangles[i]];
+            triangles[i] = i;
+        }
+
+        vertices = flatShadedVertices;
+        uvs = flatShadedUvs;
     }
 
     public Mesh CreateMesh()
@@ -206,8 +236,13 @@ public class MeshData
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
-        mesh.normals = bakedNormals;
-        //mesh.RecalculateNormals();
+        if (useFlatshading)
+        {
+            mesh.RecalculateNormals();
+        } else
+        {
+            mesh.normals = bakedNormals;
+        }
         return mesh;
     }
 }
