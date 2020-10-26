@@ -67,8 +67,6 @@ public static class MeshGenerator
                     meshData.AddTriangles(a,d,c);
                     meshData.AddTriangles(d,a,b);
                 }
-
-                vertexIndex++;
             }
                 
         }

@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: 9e8a6234243efb64095363874b5343b9
+guid: 4e37a78c0ed5b354abbb357120c66779
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
-      74: -6907791103467235855
-    second: AntRig|idle
+      74: 4596117494542125169
+    second: BeeRig|AntRigAction
   - first:
-      74: 1629487587766037107
-    second: AntRig|walk
+      74: 9009391569657844682
+    second: BeeRig|walk
+  - first:
+      74: -7473982636731239546
+    second: BeeRig|idle
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.002
+      name: Low Poly Palette
     second: {fileID: 2100000, guid: ba7260f29dc480147a52645f91a6aebd, type: 2}
   materials:
     materialImportMode: 1
@@ -43,11 +46,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: AntRig|idle
-      takeName: AntRig|AntRigAction
+      name: BeeRig|idle
+      takeName: BeeRig|AntRigAction
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -72,8 +75,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: AntRig|walk
-      takeName: AntRig|AntRigAction
+      name: BeeRig|walk
+      takeName: BeeRig|BeeRigAction
       internalID: 0
       firstFrame: 31
       lastFrame: 70
@@ -110,8 +113,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0

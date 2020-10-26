@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 9e8a6234243efb64095363874b5343b9
+guid: 4e89d50d598fd5446ac6b1537f2afc90
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
   - first:
-      74: -6907791103467235855
-    second: AntRig|idle
+      74: -9127155541814279252
+    second: SpiderRig|idle
   - first:
-      74: 1629487587766037107
-    second: AntRig|walk
+      74: -1580224697759097073
+    second: SpiderRig|walk
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.002
+      name: Low Poly Palette
     second: {fileID: 2100000, guid: ba7260f29dc480147a52645f91a6aebd, type: 2}
   materials:
     materialImportMode: 1
@@ -43,11 +43,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: AntRig|idle
-      takeName: AntRig|AntRigAction
+      name: SpiderRig|idle
+      takeName: SpiderRig|metarigAction
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -72,8 +72,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: AntRig|walk
-      takeName: AntRig|AntRigAction
+      name: SpiderRig|walk
+      takeName: SpiderRig|metarigAction
       internalID: 0
       firstFrame: 31
       lastFrame: 70
@@ -110,8 +110,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
