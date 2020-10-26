@@ -14,19 +14,17 @@ public static class TextureGenerator
         return texture;
     }
 
-    public static Texture2D TextureFromHightMap(float[,] heigthMap)
+    public static Texture2D TextureFromHightMap(HeightMap heigthMap)
     {
-        int width = heigthMap.GetLength(0);
-        int heigth = heigthMap.GetLength(1);
-
-        Texture2D texture = new Texture2D(width, heigth);
+        int width = heigthMap.values.GetLength(0);
+        int heigth = heigthMap.values.GetLength(1);
 
         Color[] colourMap = new Color[width * heigth];
         for (int y = 0; y < heigth; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, heigthMap[x, y]);
+                colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, Mathf.InverseLerp(heigthMap.minValue, heigthMap.maxValue,heigthMap.values[x, y]));
 
             }
         }
