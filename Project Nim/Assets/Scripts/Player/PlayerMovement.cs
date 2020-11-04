@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 velocity;
     bool isGrounded;
+    public Animator animator;
+
+    private const float epsilon = 0.0001f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,14 +30,29 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if(isGrounded && velocity.y < 0)
+        
+        if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
+
+        if (z > epsilon)
+        {
+            animator.SetInteger("State", 1);
+            animator.SetBool("backwarts", false);
+        }
+        else if (z < -epsilon)
+        {
+            animator.SetInteger("State", 1);
+            animator.SetBool("backwarts", true);
+        } 
+        else 
+        {
+            animator.SetInteger("State", 0);
+        }
 
         Vector3 move = transform.right * x + transform.forward * z;
 
