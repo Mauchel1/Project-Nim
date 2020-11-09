@@ -13,8 +13,8 @@ public class Terrainchunk
     Bounds bounds;
 
     MeshRenderer meshRenderer;
-    MeshFilter meshFilter;
-    MeshCollider meshCollider;
+    public MeshFilter meshFilter;
+    public MeshCollider meshCollider;
 
     LODInfo[] detailLevels;
     LODMesh[] lodMeshes;
