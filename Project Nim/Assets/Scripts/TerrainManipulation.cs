@@ -12,7 +12,7 @@ public class TerrainManipulation : MonoBehaviour
     }
 
 
-	public Dictionary<Vector2, Terrainchunk> terrainChunkDict;
+	public TerrainGenerator terrainGenerator;
 
     public float radius = 3f;
     public float power = 2.0f;
@@ -37,32 +37,36 @@ public class TerrainManipulation : MonoBehaviour
 
 			    GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			    sphere.transform.position = hit.point;
-			    GameObject chunk = hit.collider.gameObject;
-			    filter = hit.collider.gameObject.GetComponent<MeshFilter>();
-				
-			    //Debug.Log(mesh.vertices.Length);
-			    //mesh.transform.position += new Vector3(0, 15f, 0);
+			    //GameObject chunk = hit.collider.gameObject;
+			    //filter = hit.collider.gameObject.GetComponent<MeshFilter>();
 
-		    }
+				//Debug.Log(mesh.vertices.Length);
+				//mesh.transform.position += new Vector3(0, 15f, 0);
+				//List<Terrainchunk> terrainchunks = terrainGenerator.GetTerrainchunks(hit.point, radius);
+			}
 		    
 		    if (Input.GetMouseButton(0))
 		    {
-			    if (filter != null && filter.mesh != null)
-			    {
-					ModifyMesh(filter, hit.point);
+				List<Terrainchunk> terrainchunks = terrainGenerator.GetTerrainchunks(hit.point, radius);
+				foreach (Terrainchunk t in terrainchunks)
+                {
+					if (t != null)
+					{
+						ModifyMesh(t, hit.point);
+					}
 			    }
 		    }
 	    }
     }
 
-	void ModifyMesh(MeshFilter f, Vector3 hitpoint)
+	void ModifyMesh(Terrainchunk t, Vector3 hitpoint)
 	{
-		Mesh mesh = f.mesh;
+		Mesh mesh = t.meshFilter.mesh;
 		Vector3[] vertices = mesh.vertices;
 
 		for (int i = 0; i < vertices.Length; ++i)
 		{
-			Vector3 v = f.transform.TransformPoint(vertices[i]);
+			Vector3 v = t.meshFilter.transform.TransformPoint(vertices[i]);
 			//vertices[i] += hit.normal * Gaussian(v, hit.point, radius);
 			vertices[i] += Vector3.up * Gaussian(v, hit.point, radius);
 
@@ -70,13 +74,12 @@ public class TerrainManipulation : MonoBehaviour
 		mesh.vertices = vertices;
 		mesh.RecalculateBounds();
 
-		MeshCollider collider = f.GetComponent<MeshCollider>();
-		if (collider != null)
+		if (t.meshCollider != null)
 		{
 			var colliMesh = new Mesh();
 			colliMesh.vertices = mesh.vertices;
 			colliMesh.triangles = mesh.triangles;
-			collider.sharedMesh = colliMesh;
+			t.meshCollider.sharedMesh = colliMesh;
 		}
 
 	}
@@ -86,8 +89,14 @@ public class TerrainManipulation : MonoBehaviour
 		float x = pos.x - mean.x;
 		float y = pos.y - mean.y;
 		float z = pos.z - mean.z;
+		if (Mathf.Abs(x) > dev || Mathf.Abs(z) > dev) 
+		{
+			return 0; 
+		}
 		float n = 1.0f / (2.0f * Mathf.PI * dev * dev);
-		return n * Mathf.Pow(2.718281828f, -(x * x + y * y + z * z) / (2.0f * dev * dev));
+		n *= Mathf.Pow(2.718281828f, -(x * x + y * y + z * z) / (2.0f * dev * dev));
+		//n = (n < 0.1) ? 0 : n ;
+		return n;
 	}
 
 
